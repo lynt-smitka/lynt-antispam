@@ -68,8 +68,8 @@ class LyntAntiSpam {
 
   function lynt_antispam_blocker($data)
   {
-    if (!empty($_POST['nick']) || $this->httpbl($ip)) {
-      wp_die("Sorry, your comment doesn't pass the antispam...");
+    if (!empty($_POST['nick']) || strpos($data['comment_content'], '[url=') !==FALSE ||$this->httpbl($ip)) {
+      wp_die("You shall not pass through antispam...");
     }
 
     return $data;
