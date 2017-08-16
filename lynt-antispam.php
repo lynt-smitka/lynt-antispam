@@ -40,6 +40,9 @@ class LyntAntiSpam {
 
   function httpbl($ip)
   {
+    
+    if(!(defined('LYNT_PROJECT_HONEYPOT_KEY') && LYNT_PROJECT_HONEYPOT_KEY)) return false;
+    
     $lookup = LYNT_PROJECT_HONEYPOT_KEY . '.' . implode('.', array_reverse(explode('.', $ip))) . '.dnsbl.httpbl.org';
     $result = explode('.', gethostbyname($lookup));
     /*
@@ -68,7 +71,7 @@ class LyntAntiSpam {
 
   function lynt_antispam_blocker($data)
   {
-    if (!empty($_POST['nick']) || strpos($data['comment_content'], '[url=') !==FALSE ||$this->httpbl($ip)) {
+    if (!empty($_POST['nick']) || strpos($data['comment_content'], '[url=') !==FALSE || $this->httpbl($ip)) {
       wp_die("You shall not pass through antispam...");
     }
 
